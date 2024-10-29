@@ -1,6 +1,6 @@
 function MessageList() {
   return (
-    <div>Messages go here...</div>
+    <section>Messages go here...</section>
   );
 }
 
