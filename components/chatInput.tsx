@@ -1,13 +1,16 @@
 'use client';
 
 import { useRef, useState, type FormEvent } from 'react';
+import useSWR from 'swr';
 import { v4 as uuid } from 'uuid';
 
+import fetcher from '@/utils/fetchMessages';
 import { type MessageType } from '@/types';
 
 function ChatInput() {
   const chatInputRef = useRef<HTMLInputElement>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+  const { data: messages, error, mutate } = useSWR('/api/getMessages', fetcher); 
 
   function handleChange() {
     if (chatInputRef.current) {
@@ -17,8 +20,8 @@ function ChatInput() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    
     if (chatInputRef.current) {
-
       const message: MessageType = {
         id: uuid(),
         message: chatInputRef.current.value,
@@ -41,7 +44,8 @@ function ChatInput() {
         }
 
         const data = await res.json();
-        console.log(data);
+        const updatedData: MessageType[] = [...(messages ?? []), data];
+        await mutate(updatedData);
       } catch (error) {
         console.error("Failed to send message:", error);
       }
@@ -50,7 +54,7 @@ function ChatInput() {
       setIsButtonDisabled(true);
     }
   }
-  
+  console.log(messages);
   return (
     <form 
       className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 borer-top border-gray-100"
