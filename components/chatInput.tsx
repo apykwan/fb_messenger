@@ -1,6 +1,9 @@
 'use client';
 
 import { useRef, useState, type FormEvent } from 'react';
+import { v4 as uuid } from 'uuid';
+
+import { type MessageType } from '@/types';
 
 function ChatInput() {
   const chatInputRef = useRef<HTMLInputElement>(null);
@@ -12,10 +15,36 @@ function ChatInput() {
     }
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (chatInputRef.current) {
-      console.log(chatInputRef.current.value);
+
+      const message: MessageType = {
+        id: uuid(),
+        message: chatInputRef.current.value,
+        created_at: Date.now(),
+        username: 'Yi-Long Ma',
+        profilePic: 'https://images.unsplash.com/photo-1665392996412-f0f31b493972?q=80&w=1918&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'       
+      };
+
+      try {
+        const res = await fetch("/api/addMessage", {
+          method: "POST",
+          headers: {
+             "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message })
+        });
+
+        if (!res.ok) {
+          throw new Error(`Error: ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log(data);
+      } catch (error) {
+        console.error("Failed to send message:", error);
+      }
 
       chatInputRef.current.value = "";
       setIsButtonDisabled(true);
