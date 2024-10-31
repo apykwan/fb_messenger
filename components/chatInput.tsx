@@ -45,7 +45,10 @@ function ChatInput() {
 
         const data = await res.json();
         const updatedData: MessageType[] = [...(messages ?? []), data];
-        await mutate(updatedData);
+        await mutate(updatedData, {
+          optimisticData: [message, ...messages!],
+          rollbackOnError: true
+        });
       } catch (error) {
         console.error("Failed to send message:", error);
       }
@@ -54,7 +57,6 @@ function ChatInput() {
       setIsButtonDisabled(true);
     }
   }
-  console.log(messages);
   return (
     <form 
       className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 borer-top border-gray-100"
