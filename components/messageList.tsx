@@ -7,12 +7,18 @@ import fetcher from '@/utils/fetchMessages';
 import { type MessageType } from '@/types';
 
 function MessageList() {
-  const { data: messages, error, mutate } = useSWR<MessageType[]>('/api/getMessages', fetcher); 
+  const isUser = true;
+  const { data: messages = [] } = useSWR<MessageType[]>('/api/getMessages', fetcher);
+  console.log('Messages:', messages); // Debugging
   return (
-    <section className="mb-24">
-      {messages?.map(msg => (
-        <MessageCard key={msg.id} message={msg} />
-      ))}
+    <section className="space-y-5 px-5 pt-8 pb-32 max-w-2xl xl:max-w-4xl mx-auto">
+      {messages?.length ? (
+        messages.map(msg => (
+          <MessageCard key={msg.id} message={msg} />
+        ))
+      ) : (
+        <p>Loading messages...</p>
+      )}
     </section>
   );
 }

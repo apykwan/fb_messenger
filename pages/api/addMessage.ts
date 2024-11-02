@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { serverPusher } from '@/pusher';
 import { redisDB } from '@/lib/redis';
 import { type MessageType } from '@/types';
  
@@ -33,6 +34,7 @@ export default async function handler(
 
     const redis = await redisDB();
     await redis.hset(`message`, message.id, JSON.stringify(newMessage));
+    serverPusher.trigger('messages', 'new-message', newMessage);
 
     res.status(200).json({ message: newMessage });
   } catch (error) {

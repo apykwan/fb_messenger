@@ -10,7 +10,7 @@ import { type MessageType } from '@/types';
 function ChatInput() {
   const chatInputRef = useRef<HTMLInputElement>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-  const { data: messages, error, mutate } = useSWR('/api/getMessages', fetcher); 
+  const { data: messages, mutate } = useSWR('/api/getMessages', fetcher); 
 
   function handleChange() {
     if (chatInputRef.current) {
@@ -43,10 +43,10 @@ function ChatInput() {
           throw new Error(`Error: ${res.status}`);
         }
 
-        const data = await res.json();
-        const updatedData: MessageType[] = [...(messages ?? []), data];
-        await mutate(updatedData, {
-          optimisticData: [message, ...messages!],
+        // Optimistic update
+        await mutate(messages ?? [], {
+          optimisticData: [...(messages ?? []), message],
+          revalidate: true,
           rollbackOnError: true
         });
       } catch (error) {
@@ -59,7 +59,7 @@ function ChatInput() {
   }
   return (
     <form 
-      className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 borer-top border-gray-100"
+      className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 borer-top border-gray-100 bg-white/30 backdrop-blur-md shadow-s"
       onSubmit={handleSubmit}
     >
       <input 
