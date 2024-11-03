@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { serverPusher } from '@/pusher';
+import { serverPusher } from '@/utils/pusherSever';
 import { redisDB } from '@/lib/redis';
 import { type MessageType } from '@/types';
  

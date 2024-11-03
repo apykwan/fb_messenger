@@ -11,7 +11,7 @@ export const serverPusher = new Pusher({
   useTLS: true
 });
 
-export const clientPusher = new ClientPusher('3b6288b1a7f1c579aacc', {
+export const clientPusher = new ClientPusher(process.env.PUSHER_APP_ID!, {
   cluster: 'us3',
   forceTLS: true
 });
