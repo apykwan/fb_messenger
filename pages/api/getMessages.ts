@@ -24,7 +24,7 @@ export default async function handler(
     const messagesRes = await redis.hvals('message');
     const messages: MessageType[] = messagesRes
       .map(msg => JSON.parse(msg))
-      .sort((a, b) => b.created_at - a.created_at);
+      .sort((a, b) => a.created_at - b.created_at);
 
     res.status(200).json({ messages });
   } catch (error) {

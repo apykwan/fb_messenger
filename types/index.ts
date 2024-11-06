@@ -4,4 +4,5 @@ export type MessageType = {
   created_at: number;
   username: string;
   profilePic: string;
+  email?: string;
 }

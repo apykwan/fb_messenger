@@ -8,7 +8,7 @@ import LogoutButton from './logoutButton';
 
 function Header() {
   const { data: session } = useSession();
-  
+
   function isLogin() {
     if (session) {
       return (
@@ -23,7 +23,7 @@ function Header() {
             />
             <p>
               <span className="text-blue-400">Welcome </span>
-              <span className="font-bold text-lg">John Doe</span>
+              <span className="font-bold text-lg">{session.user?.name}</span>
             </p>
           </Link>
           <LogoutButton />

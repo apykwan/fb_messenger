@@ -16,6 +16,7 @@
     "pusher-js": "^8.4.0-rc2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-timeago": "^7.2.0",
     "swr": "^2.2.5",
     "uuid": "^11.0.2"
   },
@@ -23,6 +24,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-timeago": "^4.1.7",
     "eslint": "^8",
     "eslint-config-next": "15.0.1",
     "postcss": "^8",

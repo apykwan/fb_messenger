@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import useSWR from 'swr';
 
 import MessageCard from './messageCard';
@@ -14,6 +14,7 @@ type MessageListProps = {
 
 function MessageList({ initialMessages }: MessageListProps) {
   const { data: messages = [], mutate } = useSWR<MessageType[]>('/api/getMessages', fetcher);
+  const messageEndRef = useRef<HTMLDivElement>(null);
 
   const displayMessages = initialMessages.length > 0
     ? initialMessages
@@ -36,6 +37,7 @@ function MessageList({ initialMessages }: MessageListProps) {
       }
     });
 
+    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     return () => {
       channel.unbind_all();
       channel.unsubscribe();
@@ -46,6 +48,7 @@ function MessageList({ initialMessages }: MessageListProps) {
       {displayMessages.map(msg => (
         <MessageCard key={msg.id} message={msg} />
       ))}
+      <div ref={messageEndRef} />
     </section>
   );
 }

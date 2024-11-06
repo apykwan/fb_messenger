@@ -22,14 +22,17 @@ function ChatInput() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!session?.user?.name) return;
+    if (!chatInputRef.current?.value) return;
     
     if (chatInputRef.current) {
       const message: MessageType = {
         id: uuid(),
         message: chatInputRef.current.value,
         created_at: Date.now(),
-        username: 'Yi-Long Ma',
-        profilePic: 'https://images.unsplash.com/photo-1665392996412-f0f31b493972?q=80&w=1918&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'       
+        username: session?.user?.name,
+        profilePic: session?.user?.image || '', 
+        email: session?.user?.email || ''
       };
 
       try {
