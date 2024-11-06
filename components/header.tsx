@@ -2,16 +2,18 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSession} from 'next-auth/react';
 
 import LogoutButton from './logoutButton';
 
 function Header() {
-  const session = true;
+  const { data: session } = useSession();
+  
   function isLogin() {
     if (session) {
       return (
         <div className="flex justify-between items-center">
-          <div className="flex space-x-2">
+          <Link href="/" className="flex space-x-2">
             <Image
               className="rounded-full mx-2 object-contain" 
               src="https://links.papareact.com/jne" 
@@ -23,7 +25,7 @@ function Header() {
               <span className="text-blue-400">Welcome </span>
               <span className="font-bold text-lg">John Doe</span>
             </p>
-          </div>
+          </Link>
           <LogoutButton />
         </div>
       );

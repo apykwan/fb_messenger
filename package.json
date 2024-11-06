@@ -11,6 +11,7 @@
   "dependencies": {
     "ioredis": "^5.4.1",
     "next": "15.0.1",
+    "next-auth": "^4.24.10",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",
     "react": "^18.2.0",

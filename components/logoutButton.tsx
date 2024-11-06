@@ -1,6 +1,8 @@
+import { signOut } from 'next-auth/react';
+
 function LogoutButton() {
   function handleClick() {
-    console.log('click');
+    signOut();
   }
   return (
     <button
